@@ -6,12 +6,14 @@ This repo is all about the best practises of MLops.
 I hope this repo is going to be guide for your ML applications.
 
 Current roadmap:
+0) Find project
+  0.1 Train initial model
 
 1) Create application locally
 
 2) Dockerize local application
 
-    2.1) Add CI/CD
+    2.1 Add CI/CD
 
 3) Connect Database.
 
@@ -22,3 +24,10 @@ Current roadmap:
 6) Expand app by using Monitoring
 
 7) Push expanded app to ECS
+
+
+
+
+## Instructions
+
+1) Download data from https://www.kaggle.com/datasets/deepcontractor/smoke-detection-dataset?resource=download .Save this dataset on ./data folder
