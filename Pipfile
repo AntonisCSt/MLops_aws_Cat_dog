@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+streamlit = ">=1.8.1"
+pillow = "==9.0.0"
+numpy = "*"
+pytest-shutil = "*"
+pandas = "*"
+boto3 = "*"
+sklearn = "*"
+
+[dev-packages]
+seaborn = "*"
+matplotlib = "*"
+ipykernel = "*"
+
+[requires]
+python_version = "3.9"

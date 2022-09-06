@@ -6,8 +6,8 @@ This repo is all about the best practises of MLops.
 I hope this repo is going to be guide for your ML applications.
 
 Current roadmap:
-0) Find project
-  0.1 Train initial model
+0) Find project (smoke data used from kaggle check rest of readme for data source link)
+  0.1 Train initial model (DONE) 9/6/2022 : Trained with Random forest and got very good score ~0.99 acc(especially after dropping features due to collinearity) 
 
 1) Create application locally
 
