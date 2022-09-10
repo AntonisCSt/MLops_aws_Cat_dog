@@ -9,7 +9,7 @@ Current roadmap:
 0) Find project (smoke data used from kaggle check rest of readme for data source link)
   0.1 Train initial model (DONE) 6/9/2022 : Trained with Random forest and got very good score ~0.99 acc(especially after dropping features due to collinearity) 
 
-1) Create application locally (flask)
+1) Create application locally (flask) (DONE) 9/10/2022
 
 2) Dockerize local application
 
@@ -21,11 +21,13 @@ Current roadmap:
 
 5) Push to ECS
 
+  5.1) Add terraform
+
 6) Expand app by using Monitoring
 
 7) Push expanded app to ECS
 
-8) Add terraform
+8) Add monitoring service to terraform
 
 
 
