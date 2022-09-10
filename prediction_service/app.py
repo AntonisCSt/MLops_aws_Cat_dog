@@ -4,6 +4,7 @@ import pickle
 import logging
 from transform import columnDropperTransformer
 import numpy as np
+import pandas as pd
 #import requests
 from flask import Flask, jsonify, request
 #from pymongo import MongoClient
@@ -35,6 +36,10 @@ from flask import Flask, jsonify, request
 filename = './prediction_service/initial_rf_pipe.sav'
 loaded_model = pickle.load(open(filename, 'rb'))
 
+df_columns = ['UTC', 'Temperature[C]', 'Humidity[%]', 'TVOC[ppb]', 'eCO2[ppm]',
+       'Raw H2', 'Raw Ethanol', 'Pressure[hPa]', 'PM1.0', 'PM2.5', 'NC0.5',
+       'NC1.0', 'NC2.5', 'CNT']
+
 # flask application
 app = Flask('Smoke_detection')
 #mongo_client = MongoClient(MONGODB_ADDRESS)
@@ -48,9 +53,10 @@ def predict():
     row2 = request.get_json()
     row = row2.values()
     row = np.array(list(row)).reshape(1, -1)
+    df = pd.DataFrame(row, columns=df_columns)
     #loaded_model = pickle.load(open('model.pkl', 'rb'))
 
-    pred = int(loaded_model.predict(np.array(row).reshape(1, -1)))
+    pred = int(loaded_model.predict(df))
     # pred = str(pred)
     result = {
         'Fire Alarm': pred,
