@@ -7,15 +7,15 @@ I hope this repo is going to be guide for your ML applications.
 
 Current roadmap:
 0) Find project (smoke data used from kaggle check rest of readme for data source link)
-  0.1 Train initial model (DONE) 9/6/2022 : Trained with Random forest and got very good score ~0.99 acc(especially after dropping features due to collinearity) 
+  0.1 Train initial model (DONE) 6/9/2022 : Trained with Random forest and got very good score ~0.99 acc(especially after dropping features due to collinearity) 
 
-1) Create application locally
+1) Create application locally (flask)
 
 2) Dockerize local application
 
     2.1 Add CI/CD
 
-3) Connect Database.
+3) Connect Database. (MongoDB)
 
 4) Create a docker compose
 
@@ -24,6 +24,8 @@ Current roadmap:
 6) Expand app by using Monitoring
 
 7) Push expanded app to ECS
+
+8) Add terraform
 
 
 

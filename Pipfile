@@ -11,6 +11,7 @@ pytest-shutil = "*"
 pandas = "*"
 boto3 = "*"
 sklearn = "*"
+flask = "*"
 
 [dev-packages]
 seaborn = "*"
