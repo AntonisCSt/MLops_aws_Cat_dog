@@ -1,13 +1,23 @@
 # libraries
-#import os
+import os
 import pickle
 import logging
-from transform import columnDropperTransformer
 import numpy as np
 import pandas as pd
 #import requests
 from flask import Flask, jsonify, request
-#from pymongo import MongoClient
+from pymongo import MongoClient
+
+class columnDropperTransformer():
+    def __init__(self,columns):
+        self.columns=columns
+
+    def transform(self,X,y=None):
+        return X.drop(self.columns,axis=1)
+
+    def fit(self, X, y=None):
+        return self 
+
 #import boto3
 
 #AWS_SERVER_PUBLIC_KEY = os.getenv('AWS_SERVER_PUBLIC_KEY')
@@ -15,7 +25,7 @@ from flask import Flask, jsonify, request
 
 # enviroment parameters
 #RUN_ID = os.getenv('RUN_ID', 'f96296ba6d4a4122ad13490bbde0bad2')
-#MONGODB_ADDRESS = os.getenv('MONGODB_ADDRESS', "mongodb://127.0.0.1:27017")
+MONGODB_ADDRESS = os.getenv('MONGODB_ADDRESS', "mongodb://127.0.0.1:27017")
 #EVIDENTLY_SERVICE_ADDRESS = os.getenv('EVIDENTLY_SERVICE', "http://127.0.0.1:5000")
 
 #s3client = boto3.client('s3', 
@@ -33,18 +43,17 @@ from flask import Flask, jsonify, request
 # loaded_model = mlflow.pyfunc.load_model(MODEL_FILE)
 
 #temporarly until model
-filename = './prediction_service/initial_rf_pipe.sav'
+filename = 'initial_rf.sav'
 loaded_model = pickle.load(open(filename, 'rb'))
 
 df_columns = ['UTC', 'Temperature[C]', 'Humidity[%]', 'TVOC[ppb]', 'eCO2[ppm]',
        'Raw H2', 'Raw Ethanol', 'Pressure[hPa]', 'PM1.0', 'PM2.5', 'NC0.5',
        'NC1.0', 'NC2.5', 'CNT']
-
 # flask application
 app = Flask('Smoke_detection')
-#mongo_client = MongoClient(MONGODB_ADDRESS)
-#db = mongo_client.get_database('prediction_service')
-#collection = db.get_collection('data')
+mongo_client = MongoClient(MONGODB_ADDRESS)
+db = mongo_client.get_database('prediction_service')
+collection = db.get_collection('data')
 
 
 @app.route('/predict', methods=['POST'])
@@ -54,6 +63,7 @@ def predict():
     row = row2.values()
     row = np.array(list(row)).reshape(1, -1)
     df = pd.DataFrame(row, columns=df_columns)
+    df = df.drop(['PM2.5', 'NC0.5', 'NC1.0', 'NC2.5','CNT','UTC'], axis=1)
     #loaded_model = pickle.load(open('model.pkl', 'rb'))
 
     pred = int(loaded_model.predict(df))
@@ -61,17 +71,17 @@ def predict():
     result = {
         'Fire Alarm': pred,
     }
-    #logging.info("Saving data to mongodb and evidently service")
-    #save_to_db(row2, pred)
+    logging.info("Saving data to mongodb and evidently service")
+    save_to_db(row2, pred)
     #send_to_evidently_service(row2, pred)
 
     return jsonify(result)
 
 
-#def save_to_db(record, prediction):
-#    rec = record.copy()
-#    rec['prediction'] = prediction
-#    collection.insert_one(rec)
+def save_to_db(record, prediction):
+    rec = record.copy()
+    rec['prediction'] = prediction
+    collection.insert_one(rec)
 
 
 #def send_to_evidently_service(record, prediction):

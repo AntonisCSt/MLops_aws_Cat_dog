@@ -27,7 +27,7 @@ with open("target.csv", 'w') as f_target:
         data=json.dumps(row, cls=DateTimeEncoder)
         #print(row)
         resp = requests.post(
-            "http://192.168.2.103:9696/predict",
+            "http://127.0.0.1:9696/predict",
             headers={"Content-Type": "application/json"},
             data=json.dumps(row, cls=DateTimeEncoder),
         ).json()

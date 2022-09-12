@@ -12,6 +12,7 @@ pandas = "*"
 boto3 = "*"
 sklearn = "*"
 flask = "*"
+pymongo = "*"
 
 [dev-packages]
 seaborn = "*"
