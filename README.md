@@ -11,13 +11,13 @@ Current roadmap:
 
 1) Create application locally (flask) (DONE) 9/10/2022
 
-2) Dockerize local application
+2) Dockerize local application (DONE) 9/10/2022
 
     2.1 Add CI/CD
 
-3) Connect Database. (MongoDB)
+3) Connect Database. (MongoDB) (DONE) 9/10/2022
 
-4) Create a docker compose
+4) Create a docker compose (DONE) 9/10/2022
 
 5) Push to ECS
 
@@ -30,6 +30,9 @@ Current roadmap:
 8) Add monitoring service to terraform
 
 
+#### Approach 2 Kubernetes and EKS
+
+#### Approach 3 ECS all
 
 
 ## Instructions
