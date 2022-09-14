@@ -34,6 +34,29 @@ Current roadmap:
 
 #### Approach 3 ECS all
 
+follow these steps:
+
+make sure you have attached your IAM polices
+
+https://aws.amazon.com/blogs/containers/deploy-applications-on-amazon-ecs-using-docker-compose/
+
+docker context create ecs myecs
+
+docker context use myecs
+
+docker compose --project-name smokepred -f docker-compose-ecs.yml up
+
+
+conclusions:
+
+You get less control over your services
+
+read next:
+
+Load balancers
+ECS yelp tutorial
+security groups
+again VPC
 
 ## Instructions
 
