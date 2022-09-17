@@ -36,7 +36,10 @@ Create ./data folder and save this dataset on that folder.
 
 8) Add monitoring service to terraform
 
-## Approach 1 ECS and AWS database
+## Approach 1 ECS and MONGO database
+
+For mongo database I used MongoDB Atlas: https://cloud.mongodb.com
+by creating a DB cluster I got the connection endpoint and allowed inbound only my flask app.
 
 ## Approach 2 Kubernetes and EKS
 
