@@ -26,7 +26,7 @@ Create ./data folder and save this dataset on that folder.
 
 4) Create a docker compose (DONE) 9/10/2022
 
-5) Push to ECS
+5) Push to ECS (DONE) 9/15/2022
 
   5.1) Add terraform
 
@@ -36,12 +36,27 @@ Create ./data folder and save this dataset on that folder.
 
 8) Add monitoring service to terraform
 
-## Approach 1 ECS and AWS database
+## Approach 1: Deploy separately ECS and MONGO database
 
-## Approach 2 Kubernetes and EKS
+Mongo:
+For mongo database I used MongoDB Atlas: https://cloud.mongodb.com
+by creating a DB cluster I got the connection endpoint and allowed inbound only my flask app.
+
+Replace the endpoint you get from the MongoDB Atlas to line 30 of ./prediction_service/app.py (MONGODB_URI=...)
+Make sure you hide your password using os.environ.get('[ Your enviroment virable]').
+
+Then you can run the prediction image and use send_data.py
+
+Prediction service:
+
+### Update:
+
+### Terminate:
+
+## Approach 2: Kubernetes and EKS
 
 
-## Approach 3 ECS all
+## Approach 3: Use docker compose - AWS ECS
 
 Instructions:
 
@@ -55,21 +70,26 @@ docker context use myecs
 
 docker compose --project-name smokepred -f docker-compose-ecs.yml up
 ```
-to stop it:
+
+
+### Update :
+
+### Terminate:
+
+to terminate it:
 ```
 docker compose --project-name smokepred down 
 ```
 
-
-### conclusions:
+## Conclusions:
 
 You get less control over your services
 
-### next steps:
+## next steps:
 
 How to update?
 
-#### read next:
+### read next:
 
 Load balancers
 ECS yelp tutorial
