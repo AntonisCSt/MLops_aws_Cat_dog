@@ -25,7 +25,10 @@ class columnDropperTransformer():
 
 # enviroment parameters
 #RUN_ID = os.getenv('RUN_ID', 'f96296ba6d4a4122ad13490bbde0bad2')
-MONGODB_ADDRESS = os.getenv('MONGODB_ADDRESS', "mongodb://127.0.0.1:27017")
+
+MONGODB_PASS = os.environ.get('MONGO_PASS')
+MONGODB_URI = 'mongodb+srv://mongo:'+MONGODB_PASS+'@cluster0.oy8t0tc.mongodb.net/?retryWrites=true&w=majority'
+MONGODB_ADDRESS = os.getenv('MONGODB_ADDRESS', MONGODB_URI)
 #EVIDENTLY_SERVICE_ADDRESS = os.getenv('EVIDENTLY_SERVICE', "http://127.0.0.1:5000")
 
 #s3client = boto3.client('s3', 
@@ -43,7 +46,7 @@ MONGODB_ADDRESS = os.getenv('MONGODB_ADDRESS', "mongodb://127.0.0.1:27017")
 # loaded_model = mlflow.pyfunc.load_model(MODEL_FILE)
 
 #temporarly until model
-filename = 'initial_rf.sav'
+filename = './prediction_service/initial_rf.sav'
 loaded_model = pickle.load(open(filename, 'rb'))
 
 df_columns = ['UTC', 'Temperature[C]', 'Humidity[%]', 'TVOC[ppb]', 'eCO2[ppm]',

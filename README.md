@@ -58,9 +58,10 @@ Prediction service:
 
 ## Approach 3: Use docker compose - AWS ECS
 
-Instructions:
+### Instructions:
 
-make sure you have attached your IAM polices
+Requirements: 1) make sure you have attached your IAM polices
+              2) make sure all your images are in cloud (for my case I pushed them in dockerhub)
 
 https://aws.amazon.com/blogs/containers/deploy-applications-on-amazon-ecs-using-docker-compose/
 ```
