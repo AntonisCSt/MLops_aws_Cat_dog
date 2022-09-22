@@ -38,6 +38,8 @@ Create ./data folder and save this dataset on that folder.
 
 ## Approach 1: Deploy separately ECS and MONGO database
 
+PART 1: MONGO DB
+
 For mongo database I used MongoDB Atlas: https://cloud.mongodb.com
 by creating a DB cluster I got the connection endpoint and allowed inbound only my flask app.
 
@@ -45,6 +47,12 @@ Replace the endpoint you get from the MongoDB Atlas to line 30 of ./prediction_s
 Make sure you hide your password using os.environ.get('[ Your enviroment virable]').
 
 Then you can run the prediction image and use send_data.py
+
+PART 2: PUSHING PREDICTION SERVICE TO AWS FARGATE
+
+Check Fargate_prediction.md
+
+
 ### Update:
 
 ### Terminate:
@@ -54,9 +62,10 @@ Then you can run the prediction image and use send_data.py
 
 ## Approach 3: Use docker compose - AWS ECS
 
-Instructions:
+### Instructions:
 
-make sure you have attached your IAM polices
+Requirements: 1) make sure you have attached your IAM polices
+              2) make sure all your images are in cloud (for my case I pushed them in dockerhub)
 
 https://aws.amazon.com/blogs/containers/deploy-applications-on-amazon-ecs-using-docker-compose/
 ```
