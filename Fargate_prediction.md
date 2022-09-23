@@ -1,9 +1,9 @@
 # Steps for pushing to prediction service to fargate
 
-steps take and further ones inspired by: 
+Main steps taken by: 
 https://www.youtube.com/watch?v=aa3gGwJpCro&t=2266s
 
-1) Push image to ECR
+## 1) Push image to ECR
 
 log in to ECR
 (aws ecr get-login --no-include-email --region us-east-1)
@@ -17,13 +17,13 @@ docker tag <IMAGE_NAME> <ECR_URL>
 push to ECR
 docker push <ECR_URL>
 
-2) Create your app network
+## 2) Create your app network
 
 We want our container (tasks) to run in a public network. We prefer a load balancer to be accesible just to the public (Internet Gateway) only and distribute the load.
 
 Also, we will need a NAT Gateway to outbound traffic to internet Gateway just to download needed packages.
 
-2.1) Create VPC
+### 2.1) Create VPC
 
 
 Go to VPC dashboard and create a VPC.
@@ -37,9 +37,9 @@ Edit the public route table to have a destination 0.0.0.0/0 and target Internet 
 
 Attach the private route table to the two private subnets. In Route Tables edit the subnet association. and select only the two private association you created. Do the same for the public. subnets
 
-2.2) Configure ECS ,Fargate and Load Balancer
+### 2.2) Configure ECS ,Fargate and Load Balancer
 
-ECS
+##### ECS
 
 Go to your ECS and create a cluster.
 Choose AWS Fargate and give it a name. It will ask you to create a VPC. You can choose the default.
@@ -58,7 +58,7 @@ GO back to the fargate tab. Press refresh and choose the load balancer you creat
 
 Go check it out and check the tasks. If it they stopping it because your app (Dockerfile) does require internet. So we need to create a NAT Gateway for your fargate service.
 
-CREATE NAT GATEWAY:
+#### CREATE NAT GATEWAY:
 
 NAT always goes outbound so none can access our tasks. So lets create it.
 
