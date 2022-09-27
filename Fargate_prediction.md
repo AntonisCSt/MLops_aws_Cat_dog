@@ -5,18 +5,31 @@ https://www.youtube.com/watch?v=aa3gGwJpCro&t=2266s
 
 ## 1) Push image to ECR
 
-log in to ECR
-(aws ecr get-login --no-include-email --region us-east-1)
+Here we going to create a new repository and push our image to ECR.
 
+Requirements: AWS account, AWS CLI, Dockerhub (image pushed)
+
+1) Create an ECR Private repository in Amazon ECR. Make sure you copy the <ECR_URL> of your new repo.
+
+2) In the AWS CLI, log in to ECR:
+```
+aws ecr get-login --no-include-email --region <Region>
+```
+
+```
 build the docker image
-docker build -t youtube:latest .
+docker build -t <your image name>:<your tag> .
+```
 
+```
 tag the docker image
-docker tag <IMAGE_NAME> <ECR_URL>
+docker tag <your image name> <ECR_URL>
+```
 
+```
 push to ECR
 docker push <ECR_URL>
-
+```
 ## 2) Create your app network
 
 We want our container (tasks) to run in a public network. We prefer a load balancer to be accesible just to the public (Internet Gateway) only and distribute the load.
