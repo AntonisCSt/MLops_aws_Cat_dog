@@ -49,6 +49,8 @@ Then you can run the prediction image and use send_data.py
 
 Prediction service:
 
+Check Fargate_prediction.md for the specific steps and guide.
+
 ### Update:
 
 ### Terminate:
