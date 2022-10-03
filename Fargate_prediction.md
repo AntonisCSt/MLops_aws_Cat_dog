@@ -1,7 +1,7 @@
 # Steps for pushing to prediction service to fargate
 
 Main steps taken by: 
-https://www.youtube.com/watch?v=aa3gGwJpCro&t=2266s
+https://www.youtube.com/watch?v=aa3gGwJpCro&t=0s
 
 ## 1) Push image to ECR
 
@@ -118,7 +118,9 @@ In the private route edit routes and add route. Choose 0.0.0.0/0 and choose as a
 
 So now the tasks should be able to reach internet. (need to wait a bit  for that).
 
-Finnaly, we have to do one other change. We have to make sure the fargate security group have access to security group attached to the load balancer. Go to your clusters, Tasks and click blue button update. Go to Configure network. Select the Security group. Go to Inbound Rules and edit rules. You will need the Load balancer's security group. Open EC2 in a new tab. Go to load balancer section. Under the security section you can find the security group attached to the ALB. ALB should be accesible to anywhere. So, we want this ALB to access the FARGATE tasks. Copy the ALB security group and edit the source of the inbound rules of the clusters.
+Finnaly, we have to do one other change. We have to make sure the fargate security group have access to security group attached to the load balancer. Go to your clusters, Tasks and click update. Go to Configure network. Select the Security group. Go to Inbound Rules and edit rules. You will need the Load balancer's security group. To do that, open EC2 in a new tab. Go to load balancer section. Under the security section you can find the security group attached to the ALB (copy it). ALB should be accesible to anywhere. So, we want this ALB to access the FARGATE tasks. Copy the ALB security group and edit the source of the inbound rules of the clusters.
+
+
 
 
 
