@@ -49,7 +49,7 @@ Also, we will need a NAT Gateway to make the container access internet because i
 
 <add image>
 
-### 2.1) Create VPC
+## 2.1) Create VPC
 
 Let's start :
 
@@ -67,26 +67,26 @@ Also, in order to make the public subnets actually public create an Internet gat
 
 Next, create two route tables (for public and private subnets).
 
-Public route table:
+#### Public route table:
 1) myvpc-public-rt1 (attach your vpc you created)
 
 Edit the public route table to have a destination 0.0.0.0/0 and target Internet Gateway.
 
 Attach the public route table to the two public subnets.
 
-Private route table:
+#### Private route table:
 2) myvpc-private-rt1 (attach your vpc you created)
 
 Attach the private route table to the two private subnets.
 
-### 2.2) Configure ECS ,Fargate and Load Balancer
+## 2.2) Configure ECS ,Fargate and Load Balancer
 
-##### ECS
+## ECS
 
 Go to your ECS clusters and create a Cluster.
 Choose AWS Fargate and give it a name. It will ask you to create a VPC. You can choose the default.
 
-Create a task definition (like a container). Choose Fargate type. Add a name of your choice. Create a new IAM role.
+Create a task definition (like a container). Choose Fargate type. Add a name of your choice. (depending on you application you might want to assign specific role. If not leave it empty). In Task excecution IAM role, create a new IAM role.
 Choose minimum task sizes. Add a container. There choose your image URI from Step 1) (you have to go to ECR and choose it). In the container port mapping specify the container port. For this service the port is 9696. Leave everything the same. (You can define enviroment virables if you want). Click Create.
 
 You can check now that you have a cluster:
@@ -96,17 +96,19 @@ You can check now that you have a cluster:
 Now lets create a service:
 
 Go to the cluster and choose "create a service". Launch type should be FARGATE. Choose 2 number of tasks (if one fails it will remove it and spin another). Rolling updates.
-Configure VPC. Here you it asks you to configure the network for your tasks. So choose the VPC that was created in 2) and as a subnet choose the private one. Then Specify the security group. Currently the security group accepts for HTTP from anywhere. But we want only our Load balancer to acces those tasks. So keep this and we will change it later!
 
-For Load balancing choose Application Load Balancer. Health check period = 30. IF you dont have a load balancer it will give you a link for EC2. Open a tab and create There create a load balancer
+Configure VPC: Here aws asks you to configure the network for your tasks. so, select the VPC that was created in section 2) and as a subnets choose the private 01 and private 02 that you created. Then specify the security group. Currently the security group accepts for HTTP from anywhere. But we want only our Load balancer to access those tasks. So keep this and we will change it later!
 
-Load balancer: internet facing and also make sure you added public subnets. There create a new security group. and there add HTTP on port 80 with any source (0.0.0.0/0 ::0). Configure Routing: We dont ahve any target group so create one. Make sure you select type IP. Keep the same protocol. Continue and create load balancer.
+For Load balancing choose Application Load Balancer. Health check period = 30. If you dont have a load balancer aws will give you a link for EC2. Open a tab and create a load balancer.
 
-GO back to the fargate tab. Press refresh and choose the load balancer you created. For ALB listener port choose the one you created before (usally 80 HTTP). Target group the ALB. Go and create your service.
+### Load balancer: 
+In the opened page, select application load balancer. Give it a name. A listener (propably in port 80) will be selected automatically for you. For Availability zones, select two and add the two public subnets you created in section 2). In next section create a new security group. and there add HTTP on port 80 with any source (0.0.0.0/0 ::0). Configure Routing: We dont ahve any target group so create one. Make sure you select type IP. Keep the same protocol. Continue and create load balancer.
+
+Go back to the fargate tab. Press refresh and select the load balancer you created. For ALB listener port choose the one you created before (usally 80 HTTP). Target group the ALB. Go and create your service.
 
 Go check it out and check the tasks. If it they stopping it because your app (Dockerfile) does require internet. So we need to create a NAT Gateway for your fargate service.
 
-#### CREATE NAT GATEWAY:
+### CREATE NAT GATEWAY:
 
 NAT always goes outbound so none can access our tasks. So lets create it.
 
