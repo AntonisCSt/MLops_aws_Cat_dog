@@ -18,12 +18,6 @@ class DateTimeEncoder(json.JSONEncoder):
 with open("target.csv", 'w') as f_target:
     
     for row in data:
-        # print(max(0,int(row['Pass/Fail'])))
-        #row['id'] = str(uuid.uuid4())
-        #alarm = row['Fire Alarm']
-        #data = json.dumps(row, cls=DateTimeEncoder)
-        # duration = str(duration)
-        #f_target.write(f"{row['id']},{alarm}\n")
         data=json.dumps(row, cls=DateTimeEncoder)
         #print(row)
         resp = requests.post(

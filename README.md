@@ -5,7 +5,6 @@ This repo is all about the best practises of MLops.
 
 I hope this repo is going to be guide for your ML applications.
 
-
 ## Data
 
 Download data from https://www.kaggle.com/datasets/deepcontractor/smoke-detection-dataset?resource=download .
@@ -38,16 +37,37 @@ Create ./data folder and save this dataset on that folder.
 
 ## Approach 1: Deploy separately ECS and MONGO database
 
-Mongo:
+### Setting up Mongo
 For mongo database I used MongoDB Atlas: https://cloud.mongodb.com
-by creating a DB cluster I got the connection endpoint and allowed inbound only my flask app.
+by creating a DB cluster for free I got the connection endpoint.
+
+* Keep the user and password and create a config.py and add them like this:
+
+config.py:
+
+```python
+MONGO_USER = "your mongo username"
+MONGO_PASS = "your mongo password"
+```
+
+Since it has secrets add it to `.gitignore` and make sure you dont share it accidently.
+
+The press connect with drivers and choose 3.6+ python version.
+
+copy the `uri = "mongodb+srv://"+MONGO_USER+":"+MONGO_PASS+"@cluster0.lrojtko.mongodb.net/?retryWrites=true&w=majority"` to the `mongo_check_data.py`.
+
+Then we are going to create a NoSQL database. In Atlas Mongo, go to Collections and create database:
+
+* database name = prediction_service
+* collection = data
+
+and allowed inbound only my flask app.
 
 Replace the endpoint you get from the MongoDB Atlas to line 30 of ./prediction_service/app.py (MONGODB_URI=...)
-Make sure you hide your password using os.environ.get('[ Your enviroment virable]').
 
 Then you can run the prediction image and use send_data.py
 
-Prediction service:
+### Prediction service:
 
 Check Fargate_prediction.md for the specific steps and guide.
 

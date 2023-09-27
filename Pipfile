@@ -12,7 +12,7 @@ pandas = "*"
 boto3 = "*"
 sklearn = "*"
 flask = "*"
-pymongo = {extras = ["srv"], version = "*"}
+pymongo = "==3.6"
 
 [dev-packages]
 seaborn = "*"

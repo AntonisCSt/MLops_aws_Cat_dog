@@ -6,45 +6,11 @@ import numpy as np
 import pandas as pd
 #import requests
 from flask import Flask, jsonify, request
-from pymongo import MongoClient
+from collection_mongodb import collection_mongo_cluster
 
-class columnDropperTransformer():
-    def __init__(self,columns):
-        self.columns=columns
+app = Flask('Smoke_detection')
 
-    def transform(self,X,y=None):
-        return X.drop(self.columns,axis=1)
-
-    def fit(self, X, y=None):
-        return self 
-
-#import boto3
-
-#AWS_SERVER_PUBLIC_KEY = os.getenv('AWS_SERVER_PUBLIC_KEY')
-#AWS_SERVER_SECRET_KEY = os.getenv('AWS_SERVER_SECRET_KEY')
-
-# enviroment parameters
-#RUN_ID = os.getenv('RUN_ID', 'f96296ba6d4a4122ad13490bbde0bad2')
-
-MONGODB_PASS = os.environ.get('MONGO_PASS')
-MONGODB_URI = 'mongodb+srv://mongo:'+MONGODB_PASS+'@cluster0.oy8t0tc.mongodb.net/?retryWrites=true&w=majority'
-MONGODB_ADDRESS = os.getenv('MONGODB_ADDRESS', MONGODB_URI)
-#EVIDENTLY_SERVICE_ADDRESS = os.getenv('EVIDENTLY_SERVICE', "http://127.0.0.1:5000")
-
-#s3client = boto3.client('s3', 
-#                        aws_access_key_id = AWS_SERVER_PUBLIC_KEY, 
-#                        aws_secret_access_key = AWS_SERVER_SECRET_KEY,
-#                        region_name = 'eu-west-3'
-#                       )
-
-#response = s3client.get_object(Bucket='mlflow-semicon-clf', Key=f'{RUN_ID}/artifacts/artifacts/model.pkl')
-
-#body = response['Body'].read()
-#body = 'initial_rf_pipe.sav'
-#loaded_model = pickle.loads(body)
-# import model
-# loaded_model = mlflow.pyfunc.load_model(MODEL_FILE)
-
+collection = collection_mongo_cluster()
 #temporarly until model
 filename = './prediction_service/initial_rf.sav'
 loaded_model = pickle.load(open(filename, 'rb'))
@@ -52,12 +18,6 @@ loaded_model = pickle.load(open(filename, 'rb'))
 df_columns = ['UTC', 'Temperature[C]', 'Humidity[%]', 'TVOC[ppb]', 'eCO2[ppm]',
        'Raw H2', 'Raw Ethanol', 'Pressure[hPa]', 'PM1.0', 'PM2.5', 'NC0.5',
        'NC1.0', 'NC2.5', 'CNT']
-# flask application
-app = Flask('Smoke_detection')
-mongo_client = MongoClient(MONGODB_ADDRESS)
-db = mongo_client.get_database('prediction_service')
-collection = db.get_collection('data')
-
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -85,7 +45,6 @@ def save_to_db(record, prediction):
     rec = record.copy()
     rec['prediction'] = prediction
     collection.insert_one(rec)
-
 
 #def send_to_evidently_service(record, prediction):
 #   rec = record.copy()
